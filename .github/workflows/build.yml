@@ -1,0 +1,30 @@
+name: Build TurkishAI Plugin
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip'i ac
+        run: unzip -o MemoSunucu.zip
+
+      - name: Java 21 kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Maven ile derle
+        run: cd TurkishAI && mvn -B clean package
+
+      - name: Jar'i yukle
+        uses: actions/upload-artifact@v4
+        with:
+          name: TurkishAI-jar
+          path: TurkishAI/target/TurkishAI-1.0.0.jar
